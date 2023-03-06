@@ -33,6 +33,8 @@ class CalcController {
     clearAll(){
         
         this._operation = [];
+        this._lastNumber = '';
+        this._lastOperator = '';
         this.setLastNumberToDisplay();
 
 
@@ -119,12 +121,10 @@ class CalcController {
 
     }
     addOperation(value){
-        console.log('A',isNaN(this.getLastOperation()));
         if (isNaN(this.getLastOperation())) {
             if (this.isOperator(value)){
                 this.setLastOperation(value);
-            } else if (isNaN(value)) {
-            }else {
+            } else {
                 this.pushOperator(value);
                 this.setLastNumberToDisplay();
             }
@@ -135,7 +135,7 @@ class CalcController {
                 this.pushOperator(value);
             } else{
                 let newValue=  this.getLastOperation().toString() + value.toString();
-                this.setLastOperation(parseInt(newValue));
+                this.setLastOperation(parseFloat(newValue));
 
                 this.setLastNumberToDisplay();
             }
@@ -153,7 +153,16 @@ class CalcController {
     }
 
 
+    addDot(){
+        let LastOperation = this.getLastOperation();
+        if (this.isOperator(LastOperation)|| !LastOperation){
+            this.pushOperator('0.');
+        } else {
+            this.setLastOperation(LastOperation.toString() + '.');
+        }
+        this.setLastNumberToDisplay();
 
+    }
 
     execBtn(value){
         switch (value) {
@@ -199,7 +208,7 @@ class CalcController {
             break;
 
             case "ponto":
-                this.addOperation('.');
+                this.addDot('.');
                 break;
 
             case '0':
