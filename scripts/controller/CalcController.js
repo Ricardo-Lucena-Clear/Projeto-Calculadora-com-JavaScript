@@ -52,8 +52,21 @@ class CalcController {
     pushOperator (value){
         this._operation.push(value);
         if (this._operation.length > 3) {
-            console.log(this._operation);
+            this.calc();
+            
         }
+        
+    }
+
+    calc(){
+        let last = this._operation.pop();
+
+        let result = eval (this._operation.join());
+
+        this._operation = [result, last];
+    }
+    setLastNumberToDisplay(){
+
         
     }
     addOperation(value){
@@ -73,6 +86,8 @@ class CalcController {
             } else{
                 let newValue=  this.getLastOperation().toString() + value.toString();
                 this.setLastOperation(parseInt(newValue));
+
+                this.setLastNumberToDisplay();
             }
                 
             
